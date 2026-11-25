@@ -1,0 +1,41 @@
+plugins {  // плагины сборки
+    id 'java-library'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)  // версия JDK — пин SSOT
+    }
+}
+
+repositories {  // откуда тянуть зависимости
+    mavenCentral()
+}
+
+dependencies {  // тестовые зависимости
+    testImplementation(
+            platform("io.qameta.allure:allure-bom:2.29.1"),
+            "com.codeborne:selenide:7.19.0",
+            "org.seleniumhq.selenium:selenium-java:4.52.0",
+            "org.junit.jupiter:junit-jupiter:6.1.3",
+            "org.apache.logging.log4j:log4j-api:2.26.1",
+            "org.apache.logging.log4j:log4j-core:2.26.1",
+            "io.qameta.allure:allure-junit5",
+            "io.qameta.allure:allure-selenide")
+    testRuntimeOnly(
+            "org.junit.platform:junit-platform-launcher",
+            "org.apache.logging.log4j:log4j-slf4j2-impl:2.26.1")
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'  // исходники в UTF-8
+}
+
+test {  // таск прогона: раннер, агент, логи, отчёты
+    useJUnitPlatform()  // раннер JUnit Platform
+    jvmArgs '-javaagent:' + configurations.detachedConfiguration(  // @Step: aspectj-агент напрямую — резолвится на фазе конфигурации, config-cache safe
+        dependencies.create('org.aspectj:aspectjweaver:1.9.26')
+    ).singleFile.absolutePath
+    reports.html.required = true  // явная настройка HTML-отчёта
+    reports.junitXml.required = true
+}
