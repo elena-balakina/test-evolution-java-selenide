@@ -20,6 +20,14 @@ case "${1-}" in
     printf '%s\n' 'login-empty-credentials [login] Логин с пустыми логином и паролем'
     printf '%s\n' 'login-short-username [login] Логин короче минимальной длины'
     printf '%s\n' 'login-short-password [login] Пароль короче минимальной длины'
+    printf '%s\n' 'registration-success [registration] Успешная регистрация нового пользователя'
+    printf '%s\n' 'registration-existing-username [registration] Повторная регистрация с тем же логином'
+    printf '%s\n' 'registration-password-mismatch [registration] Несовпадающие пароль и подтверждение'
+    printf '%s\n' 'registration-empty-password-confirmation [registration] Пустое подтверждение пароля'
+    printf '%s\n' 'registration-empty-username [registration] Пустой логин'
+    printf '%s\n' 'registration-short-username [registration] Логин короче минимальной длины'
+    printf '%s\n' 'registration-short-password [registration] Пароль короче минимальной длины'
+    printf '%s\n' 'registration-empty-credentials [registration] Пустые данные регистрации'
     exit 0 ;;
   one|group) [ "$#" -eq 2 ] || usage ;;
   all) [ "$#" -eq 1 ] || usage ;;
@@ -74,10 +82,55 @@ case "$1:${2-}" in
     printf '%s\n' '+ gradle --offline test --tests '\''tests.LoginTest.unsuccessfulLoginWithShortPasswordTest'\'''
     exec gradle --offline test --tests 'tests.LoginTest.unsuccessfulLoginWithShortPasswordTest'
     ;;
+  'one:registration-success')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.RegistrationTest.successfulRegistrationTest'\'''
+    exec gradle --offline test --tests 'tests.RegistrationTest.successfulRegistrationTest'
+    ;;
+  'one:registration-existing-username')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.RegistrationTest.unsuccessfulRegistrationWithExistingUserNameTest'\'''
+    exec gradle --offline test --tests 'tests.RegistrationTest.unsuccessfulRegistrationWithExistingUserNameTest'
+    ;;
+  'one:registration-password-mismatch')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.RegistrationTest.unsuccessfulRegistrationWithDifferentPasswordsTest'\'''
+    exec gradle --offline test --tests 'tests.RegistrationTest.unsuccessfulRegistrationWithDifferentPasswordsTest'
+    ;;
+  'one:registration-empty-password-confirmation')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.RegistrationTest.unsuccessfulRegistrationWithEmptyPasswordConfirmationTest'\'''
+    exec gradle --offline test --tests 'tests.RegistrationTest.unsuccessfulRegistrationWithEmptyPasswordConfirmationTest'
+    ;;
+  'one:registration-empty-username')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.RegistrationTest.unsuccessfulRegistrationWithEmptyUserNameTest'\'''
+    exec gradle --offline test --tests 'tests.RegistrationTest.unsuccessfulRegistrationWithEmptyUserNameTest'
+    ;;
+  'one:registration-short-username')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.RegistrationTest.unsuccessfulRegistrationWithShortUserNameTest'\'''
+    exec gradle --offline test --tests 'tests.RegistrationTest.unsuccessfulRegistrationWithShortUserNameTest'
+    ;;
+  'one:registration-short-password')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.RegistrationTest.unsuccessfulRegistrationWithShortPasswordTest'\'''
+    exec gradle --offline test --tests 'tests.RegistrationTest.unsuccessfulRegistrationWithShortPasswordTest'
+    ;;
+  'one:registration-empty-credentials')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.RegistrationTest.unsuccessfulRegistrationWithEmptyCredentialsTest'\'''
+    exec gradle --offline test --tests 'tests.RegistrationTest.unsuccessfulRegistrationWithEmptyCredentialsTest'
+    ;;
   'group:login')
     require_sut
     printf '%s\n' '+ gradle --offline test --tests '\''tests.LoginTest'\'''
     exec gradle --offline test --tests 'tests.LoginTest'
+    ;;
+  'group:registration')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.RegistrationTest'\'''
+    exec gradle --offline test --tests 'tests.RegistrationTest'
     ;;
   'all:')
     require_sut

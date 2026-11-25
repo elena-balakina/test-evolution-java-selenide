@@ -18,4 +18,9 @@ public class HomePage extends BasePage {  // Page Object — элементы и
     public SelenideElement welcomeMessage() {
         return welcomeMessage;
     }
+
+    @Step("Выйти из учётной записи")
+    public void logout() {
+        logoutButton.click();
+    }
 }
