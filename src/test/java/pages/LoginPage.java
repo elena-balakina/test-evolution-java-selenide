@@ -31,4 +31,9 @@ public class LoginPage extends BasePage {  // Page Object — элементы �
     public void submit() {
         submitButton.click();
     }
+
+    @Step("Получить сообщение об ошибке")
+    public SelenideElement errorMessage() {
+        return errorMessage;
+    }
 }

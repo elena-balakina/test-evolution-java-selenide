@@ -13,6 +13,13 @@ case "${1-}" in
   list)
     [ "$#" -eq 1 ] || usage
     printf '%s\n' 'login-success [login] Логин валидной парой'
+    printf '%s\n' 'login-invalid-password [login] Логин с неверным паролем'
+    printf '%s\n' 'login-empty-password [login] Логин с пустым паролем'
+    printf '%s\n' 'login-nonexistent-username [login] Логин с несуществующим логином'
+    printf '%s\n' 'login-empty-username [login] Логин с пустым логином'
+    printf '%s\n' 'login-empty-credentials [login] Логин с пустыми логином и паролем'
+    printf '%s\n' 'login-short-username [login] Логин короче минимальной длины'
+    printf '%s\n' 'login-short-password [login] Пароль короче минимальной длины'
     exit 0 ;;
   one|group) [ "$#" -eq 2 ] || usage ;;
   all) [ "$#" -eq 1 ] || usage ;;
@@ -31,6 +38,41 @@ case "$1:${2-}" in
     require_sut
     printf '%s\n' '+ gradle --offline test --tests '\''tests.LoginTest.successfulLoginTest'\'''
     exec gradle --offline test --tests 'tests.LoginTest.successfulLoginTest'
+    ;;
+  'one:login-invalid-password')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.LoginTest.unsuccessfulLoginWithInvalidPasswordTest'\'''
+    exec gradle --offline test --tests 'tests.LoginTest.unsuccessfulLoginWithInvalidPasswordTest'
+    ;;
+  'one:login-empty-password')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.LoginTest.unsuccessfulLoginWithEmptyPasswordTest'\'''
+    exec gradle --offline test --tests 'tests.LoginTest.unsuccessfulLoginWithEmptyPasswordTest'
+    ;;
+  'one:login-nonexistent-username')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.LoginTest.unsuccessfulLoginWithNonexistentUserNameTest'\'''
+    exec gradle --offline test --tests 'tests.LoginTest.unsuccessfulLoginWithNonexistentUserNameTest'
+    ;;
+  'one:login-empty-username')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.LoginTest.unsuccessfulLoginWithEmptyUserNameTest'\'''
+    exec gradle --offline test --tests 'tests.LoginTest.unsuccessfulLoginWithEmptyUserNameTest'
+    ;;
+  'one:login-empty-credentials')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.LoginTest.unsuccessfulLoginWithEmptyCredentialsTest'\'''
+    exec gradle --offline test --tests 'tests.LoginTest.unsuccessfulLoginWithEmptyCredentialsTest'
+    ;;
+  'one:login-short-username')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.LoginTest.unsuccessfulLoginWithShortUserNameTest'\'''
+    exec gradle --offline test --tests 'tests.LoginTest.unsuccessfulLoginWithShortUserNameTest'
+    ;;
+  'one:login-short-password')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.LoginTest.unsuccessfulLoginWithShortPasswordTest'\'''
+    exec gradle --offline test --tests 'tests.LoginTest.unsuccessfulLoginWithShortPasswordTest'
     ;;
   'group:login')
     require_sut
