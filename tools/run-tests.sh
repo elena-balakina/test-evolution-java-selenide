@@ -28,6 +28,9 @@ case "${1-}" in
     printf '%s\n' 'registration-short-username [registration] Логин короче минимальной длины'
     printf '%s\n' 'registration-short-password [registration] Пароль короче минимальной длины'
     printf '%s\n' 'registration-empty-credentials [registration] Пустые данные регистрации'
+    printf '%s\n' 'logout-success [logout] Успешный выход из учётной записи'
+    printf '%s\n' 'home-after-login [home] Главная страница после логина'
+    printf '%s\n' 'home-without-login [home] Главная страница без логина'
     exit 0 ;;
   one|group) [ "$#" -eq 2 ] || usage ;;
   all) [ "$#" -eq 1 ] || usage ;;
@@ -122,6 +125,21 @@ case "$1:${2-}" in
     printf '%s\n' '+ gradle --offline test --tests '\''tests.RegistrationTest.unsuccessfulRegistrationWithEmptyCredentialsTest'\'''
     exec gradle --offline test --tests 'tests.RegistrationTest.unsuccessfulRegistrationWithEmptyCredentialsTest'
     ;;
+  'one:logout-success')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.LogoutTest.successfulLogoutTest'\'''
+    exec gradle --offline test --tests 'tests.LogoutTest.successfulLogoutTest'
+    ;;
+  'one:home-after-login')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.HomeTest.homePageIsDisplayedAfterLoginTest'\'''
+    exec gradle --offline test --tests 'tests.HomeTest.homePageIsDisplayedAfterLoginTest'
+    ;;
+  'one:home-without-login')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.HomeTest.homePageIsDisplayedWithoutLoginTest'\'''
+    exec gradle --offline test --tests 'tests.HomeTest.homePageIsDisplayedWithoutLoginTest'
+    ;;
   'group:login')
     require_sut
     printf '%s\n' '+ gradle --offline test --tests '\''tests.LoginTest'\'''
@@ -131,6 +149,16 @@ case "$1:${2-}" in
     require_sut
     printf '%s\n' '+ gradle --offline test --tests '\''tests.RegistrationTest'\'''
     exec gradle --offline test --tests 'tests.RegistrationTest'
+    ;;
+  'group:logout')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.LogoutTest'\'''
+    exec gradle --offline test --tests 'tests.LogoutTest'
+    ;;
+  'group:home')
+    require_sut
+    printf '%s\n' '+ gradle --offline test --tests '\''tests.HomeTest'\'''
+    exec gradle --offline test --tests 'tests.HomeTest'
     ;;
   'all:')
     require_sut

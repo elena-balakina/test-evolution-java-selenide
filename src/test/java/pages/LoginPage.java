@@ -36,4 +36,9 @@ public class LoginPage extends BasePage {  // Page Object — элементы �
     public SelenideElement errorMessage() {
         return errorMessage;
     }
+
+    @Step("Получить форму логина")
+    public SelenideElement loginForm() {
+        return loginForm;
+    }
 }
